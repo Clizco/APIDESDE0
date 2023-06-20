@@ -26,8 +26,8 @@ accountRouter.get("/:guid", async (req, res) => {
 accountRouter.post("/", async (req, res) => {
     const { guid, firstname, phone } = req.body;
 
-    if (!guid || !firstname ) return res.state(400).send();
-
+    if (!guid || !firstname ) return res.status(400).send();
+ 
     const user = await userModel.findById(guid).exec();
     if(user)
         return res.status(409).send("El usuario ya esta registrado, por favor inicia sesion o crea un perfil");
