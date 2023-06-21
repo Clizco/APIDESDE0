@@ -39,6 +39,7 @@ accountRouter.post("/", async (req, res) => {
         firstname,
         phone,
     })
+    setTimeout(3000);
 
 });
 
@@ -49,6 +50,14 @@ accountRouter.patch("/", async (req, res) => {
 
 //Eliminar usuarios
 accountRouter.delete("/", async (req, res) => {
+  const { guid } = req.params;
+  const user = await userModel.findById(guid).exec();
+
+  if (!user) return res.status(404).send();
+
+  user.remove()
+
+  return res.send();
 
 });
 
