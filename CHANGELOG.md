@@ -1,12 +1,6 @@
-# CHANGELOG
+#### 1.0.0 (2023-06-22)
 
-# Version v.0.1
- -  Added  routes
-    -- Added account 
-    -- Added IP log 
-    -- Added Post function
-    -- Added Get function
- -  Added database example for the guid, phone, name
- -  Added UserSchema 
-   - Added reading of the guid, name and phone
-# Version v.0.1.1
+##### Other Changes
+
+* //github.com/Clizco/APIDESDE0 (28c08274)
+
