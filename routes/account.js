@@ -4,14 +4,14 @@ import { USERS_BBDD } from "../bbdd.js";
 
 const accountRouter = Router()
 
-//Midleware loguea la direccion ip
+//Midleware that logs the IP
 accountRouter.use((req, res, next) => {
     console.log(req.ip);
   
     next();
 }); 
 
-//Obtener detalles a partir del numero de telefono
+//Get users details
 accountRouter.get("/:guid", async (req, res) => {
     const { guid } = req.params;
     const user = await userModel.findById(guid).exec();
@@ -22,7 +22,7 @@ accountRouter.get("/:guid", async (req, res) => {
 });
 
 
-//Agregar detalles de los usuarios
+//Add user details
 accountRouter.post("/", async (req, res) => {
     const { guid, firstname, phone } = req.body;
 
@@ -43,22 +43,22 @@ accountRouter.post("/", async (req, res) => {
 
 });
 
-//Actualizar detalles de los usuarios
+//Update users details
 accountRouter.patch("/", async (req, res) => {
 
 });
 
-//Eliminar usuarios
+//Delete users
 accountRouter.delete("/", async (req, res) => {
-  const { guid } = req.params;
-  const user = await userModel.findById(guid).exec();
-
-  if (!user) return res.status(404).send();
-
-  user.remove()
-
-  return res.send();
-
-});
-
-export default accountRouter;
+    const { guid } = req.params;
+    const user = await userModel.findById(guid).exec();
+  
+    if (!user) return res.status(404).send();
+  
+    user.remove()
+  
+    return res.send();
+  
+  });
+  
+  export default accountRouter;
