@@ -6,7 +6,7 @@ import accountRouter from "./routes/account.js";
 
 dotenv.config()
 
-const PORT = process.env.PORT || 1600;
+const PORT = process.env.PORT || 1500;
 const expressApp = express()
 
 expressApp.use(cookieParser());
