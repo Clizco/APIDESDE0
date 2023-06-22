@@ -24,22 +24,29 @@ accountRouter.get("/:guid", async (req, res) => {
 
 //Add user details
 accountRouter.post("/", async (req, res) => {
-    const { guid, firstname, phone } = req.body;
+    const { guid, email, firstname, born, phone  } = req.body;
 
-    if (!guid || !firstname ) return res.status(400).send();
+    if (!email || !phone ) return res.status(400).send();
  
-    const user = await userModel.findById(guid).exec();
+    const user = await userModel.findById(email).exec();
     if(user)
         return res.status(409).send("El usuario ya esta registrado, por favor inicia sesion o crea un perfil");
 
-    const newUser = new userModel({_id:guid, firstname, phone});
+    const newUser = new userModel({_id:guid, firstname, email, born, phone});
+
+   
     await newUser.save();
     USERS_BBDD.push({
         guid,
         firstname,
+        email,
+        born,
         phone,
     })
-    setTimeout(3000);
+    if (newUser)
+     return res.status(200).send("Se registro el usuario de manera exitosa!!")
+   
+    
 
 });
 
