@@ -11,7 +11,7 @@ accountRouter.use((req, res, next) => {
     next();
 }); 
 
-//Get users details
+//get users details
 accountRouter.get("/:guid", async (req, res) => {
     const { guid } = req.params;
     const user = await userModel.findById(guid).exec();
@@ -22,7 +22,7 @@ accountRouter.get("/:guid", async (req, res) => {
 });
 
 
-//Add user details
+//add user details
 accountRouter.post("/", async (req, res) => {
     const { guid, email, firstname, born, phone  } = req.body;
 
