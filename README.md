@@ -1,5 +1,7 @@
-# APIREST
+# BLUD
 
-Despues de tanto tiempo logre desarrollar mi primera API, espero les guste
+- API designed to manage users in a database
+- You are free to contribute if you want
+- I need help with Husky if you know send me a DM!
 
-![86984e27294bab8c754d6027fc54c68e](https://github.com/Clizco/APIDESDE0/assets/86128395/5db08f06-20ce-47fa-8e76-96655688d025)
+  ![unnamed](https://github.com/Clizco/blud/assets/86128395/19fb6f47-1850-40d8-9bc7-66bfd975b975)
