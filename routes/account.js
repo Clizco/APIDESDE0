@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userModel from "../schema/user-schema.js";
-import { USERS_BBDD } from "../bbdd.js";
+import { USERS_BBDD } from "../json-example/bbdd.js";
 
 const accountRouter = Router()
 
