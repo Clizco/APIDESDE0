@@ -4,7 +4,7 @@ import { USERS_BBDD } from "../bbdd.js";
 
 const accountRouter = Router()
 
-//Midleware that logs the IP
+//middleware that logs the IP
 accountRouter.use((req, res, next) => {
     console.log(req.ip);
   
