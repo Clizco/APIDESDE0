@@ -61,7 +61,7 @@ accountRouter.patch("/", async (req, res) => {
 
   if (!user) res.status(404).send();
 
-  user.name = name;
+  user.firstname = firstname;
 
   await user.save();
 
