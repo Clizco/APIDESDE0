@@ -52,6 +52,20 @@ accountRouter.post("/", async (req, res) => {
 
 //Update users details
 accountRouter.patch("/", async (req, res) => {
+  const { guid } = req.params;
+  const { firstname } = req.body;
+
+  if (!firstname) return res.state(400).send();
+
+  const user = await userModel.findById(guid).exec();
+
+  if (!user) res.status(404).send();
+
+  user.name = name;
+
+  await user.save();
+
+  return res.send();
 
 });
 
