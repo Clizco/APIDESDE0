@@ -24,9 +24,9 @@ accountRouter.get("/:guid", async (req, res) => {
 
 //add user details
 accountRouter.post("/", async (req, res) => {
-    const { guid, email, firstname, born, phone  } = req.body;
+    const { guid, email, firstname, lastname, born, phone  } = req.body;
 
-    if (!guid || !email ) return res.status(400).send();
+    if (!guid  || !email ) return res.status(400).send();
  
     const user = await userModel.findById(guid).exec();
     if(user)
@@ -39,6 +39,7 @@ accountRouter.post("/", async (req, res) => {
     USERS_BBDD.push({
         guid,
         firstname,
+        lastname,
         email,
         born,
         phone,
