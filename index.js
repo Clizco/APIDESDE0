@@ -3,6 +3,7 @@ import express  from "express";
 import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import accountRouter from "./routes/account.js";
+import userModel from "./schema/user-schema.js";
 
 dotenv.config()
 
