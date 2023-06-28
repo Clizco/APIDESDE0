@@ -12,9 +12,9 @@ accountRouter.use((req, res, next) => {
 }); 
 
 //get users details
-accountRouter.get("/:guid", async (req, res) => {
-    const { guid } = req.params;
-    const user = await userModel.findById(guid).exec();
+accountRouter.get("/:email", async (req, res) => {
+    const { email } = req.params;
+    const user = await userModel.findOne(email).exec();
   
     if (!user) return res.status(404).send();
   
@@ -24,20 +24,18 @@ accountRouter.get("/:guid", async (req, res) => {
 
 //add user details
 accountRouter.post("/", async (req, res) => {
-    const { guid, email, firstname, lastname, born, phone  } = req.body;
+    const {email, firstname, lastname, born, phone  } = req.body;
 
-    if (!guid  || !email ) return res.status(400).send();
  
-    const user = await userModel.findById(guid).exec();
-    if(user)
-        return res.status(409).send("El usuario ya esta registrado, por favor inicia sesion o crea un perfil");
+    const newUser = new userModel({ firstname, lastname, email, born, phone});
 
-    const newUser = new userModel({_id:guid, firstname, email, born, phone});
+    const user = await userModel.findOne({email}).exec();
+    if(user)
+        return res.status(409).send("El email ya esta registrado, usa otro!!");
 
    
     await newUser.save();
     USERS_BBDD.push({
-        guid,
         firstname,
         lastname,
         email,
@@ -72,8 +70,8 @@ accountRouter.patch("/", async (req, res) => {
 
 //Delete users
 accountRouter.delete("/", async (req, res) => {
-    const { guid } = req.params;
-    const user = await userModel.findById(guid).exec();
+    const { email } = req.params;
+    const user = await userModel.findOne(email).exec();
   
     if (!user) return res.status(404).send();
   
