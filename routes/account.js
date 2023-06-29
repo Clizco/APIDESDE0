@@ -24,10 +24,10 @@ accountRouter.get("/:email", async (req, res) => {
 
 //add user details
 accountRouter.post("/", async (req, res) => {
-    const {email, firstname, lastname, born, phone  } = req.body;
+    const {email, firstname, lastname, DateOfBirth, phone  } = req.body;
 
  
-    const newUser = new userModel({ firstname, lastname, email, born, phone});
+    const newUser = new userModel({ firstname, lastname, email, DateOfBirth, phone});
 
     const user = await userModel.findOne({email}).exec();
     if(user)
@@ -39,7 +39,7 @@ accountRouter.post("/", async (req, res) => {
         firstname,
         lastname,
         email,
-        born,
+        DateOfBirth,
         phone,
     })
     if (newUser)
