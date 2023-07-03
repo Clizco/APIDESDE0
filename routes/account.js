@@ -14,7 +14,7 @@ accountRouter.use((req, res, next) => {
 //get users details
 accountRouter.get("/:email", async (req, res) => {
     const { email } = req.params;
-    const user = await userModel.findOne(email).exec();
+    const user = await userModel.findOne({email}).exec();
   
     if (!user) return res.status(404).send();
   
@@ -51,12 +51,12 @@ accountRouter.post("/", async (req, res) => {
 
 //Update users details
 accountRouter.patch("/", async (req, res) => {
-  const { guid } = req.params;
+  const { email } = req.params;
   const { firstname } = req.body;
 
   if (!firstname) return res.state(400).send();
 
-  const user = await userModel.findById(guid).exec();
+  const user = await userModel.findOne({email}).exec();
 
   if (!user) res.status(404).send();
 
