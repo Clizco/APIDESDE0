@@ -52,15 +52,14 @@ accountRouter.post("/", async (req, res) => {
 //Update users details
 accountRouter.patch("/", async (req, res) => {
   const { email } = req.params;
-  const { firstname } = req.body;
+  const { firstname, lastname } = req.body;
 
-  if (!firstname) return res.state(400).send();
+  if (!firstname) return res.status(400).send();
 
-  const user = await userModel.findOne({email}).exec();
-
-  if (!user) res.status(404).send();
+  const user = await userModel.findOneAndUpdate({email});
 
   user.firstname = firstname;
+  user.lastname = lastname;
 
   await user.save();
 
