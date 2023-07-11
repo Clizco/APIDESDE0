@@ -24,24 +24,28 @@ accountRouter.get("/:email", async (req, res) => {
 
 //add user details
 accountRouter.post("/", async (req, res) => {
-    const {email, firstname, lastname, DateOfBirth, phone  } = req.body;
-
+    const {email, firstname, lastname, dateofbirth, phone  } = req.body;
  
-    const newUser = new userModel({ firstname, lastname, email, DateOfBirth, phone});
+ 
+    const newUser = new userModel({ firstname, lastname, email, dateofbirth, phone});
+ 
+    const userEmail = await userModel.findOne({email}).exec();
+    const userPhone = await userModel.findOne({phone}).exec(); 
 
-    const user = await userModel.findOne({email}).exec();
-    if(user)
-        return res.status(409).send("El email ya esta registrado, usa otro!!");
+    if(userEmail)
+        return res.status(409).send("Este email ya esta registrado, por favor utilice otro correo electronico.");
 
+    if(userPhone)   
+        return res.status(409).send("Este teléfono ya esta siendo usado, por favor utilice otro numero telefónico.");
    
     await newUser.save();
     USERS_BBDD.push({
         firstname,
         lastname,
         email,
-        DateOfBirth,
+        dateofbirth,
         phone,
-    })
+    }) 
     if (newUser)
      return res.status(200).send("Se registro el usuario de manera exitosa!!")
    
@@ -54,18 +58,17 @@ accountRouter.patch("/", async (req, res) => {
   const { email } = req.params;
   const { firstname, lastname } = req.body;
 
-  if (!firstname) return res.status(400).send();
-
+  if (!firstname || !lastname) return res.status(400).send();
   const user = await userModel.findOneAndUpdate({email});
 
   user.firstname = firstname;
   user.lastname = lastname;
 
-  await user.save();
+  await user.save(); 
 
   return res.send();
-
-});
+ 
+}); 
 
 //Delete users
 accountRouter.delete("/", async (req, res) => {
