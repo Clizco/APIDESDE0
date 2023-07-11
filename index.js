@@ -7,8 +7,8 @@ import userModel from "./schema/user-schema.js";
 
 dotenv.config()
 
-const PORT = process.env.PORT || 1600;
-const expressApp = express()
+const PORT = process.env.PORT || 1500;
+const expressApp = express() 
 
 expressApp.use(cookieParser());
 expressApp.use(express.text());
