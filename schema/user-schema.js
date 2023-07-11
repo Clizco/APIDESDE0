@@ -10,6 +10,9 @@ const userSchema = new mongoose.Schema({
     firstname: {
         type: String,
         required: [true],
+        validate: function(value) {
+            return value.length > 0;
+            },
         trim: true
     },
     lastname:{
@@ -21,9 +24,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true],
         trim: true,
+        validate: function(value) {
+            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);},
         unique: true,
         },
-    DateOfBirth : {
+    dateofbirth : {
         type: Date,
         required: [true],
         trim: true,
@@ -31,24 +36,33 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
+        minlenght: [4, `Tiene que tener al menos 4 numeros, tuvo {VALUE}`],
+        maxlenght: 8,
+        validate: {
+            validator: function(v) {
+                            return /^\d{10}$/.test(v);
+                        },
+                        message: props => `${props.value} no es un numero de telefono válido`
+        },
         required: [true],
         trim: true,
         unique: [true]
     },
+    modified: {
+        type: Date,
+        required: [true],
+        trim: true,
+        validate: function( date ) {           
+            return date > new Date();
+            },  
+        default: new Date()
+    
+    }
 });
 
 
 
 const userModel = model('User', userSchema)
 
-
-/* const user = {
-    created: "20052006",
-    firstname: "Abraham",
-    lastname: "Lopez",
-    email: "lolpapi039@gmail.com",
-    born: "20052006",
-    phone: "6504929"  
-}; */
 
 export default userModel; 
