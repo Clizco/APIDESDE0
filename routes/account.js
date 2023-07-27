@@ -1,5 +1,5 @@
 import { Router } from "express";
-import userModel from "../schema/user-schema.js";
+import userModel from "../schema/user-model.js";
 import { USERS_BBDD } from "../json-example/bbdd.js";
 
 const accountRouter = Router()
@@ -29,7 +29,7 @@ accountRouter.post("/", async (req, res) => {
  
     const newUser = new userModel({ firstname, lastname, email, dateofbirth, phone});
  
-    const userEmail = await userModel.findOne({email}).exec();
+    const userEmail = await userModel.findMany({email, phone}).exec();
     const userPhone = await userModel.findOne({phone}).exec(); 
 
     if(userEmail)
@@ -39,13 +39,7 @@ accountRouter.post("/", async (req, res) => {
         return res.status(409).send("Este teléfono ya esta siendo usado, por favor utilice otro numero telefónico.");
    
     await newUser.save();
-    USERS_BBDD.push({
-        firstname,
-        lastname,
-        email,
-        dateofbirth,
-        phone,
-    }) 
+    
     if (newUser)
      return res.status(200).send("Se registro el usuario de manera exitosa!!")
    
