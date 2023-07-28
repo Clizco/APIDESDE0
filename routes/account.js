@@ -1,6 +1,6 @@
 import { Router } from "express";
 import userModel from "../schema/user-model.js";
-import { USERS_BBDD } from "../json-example/bbdd.js";
+import { validateCreate } from '../validators/users.js' 
 
 const accountRouter = Router()
 
@@ -12,7 +12,7 @@ accountRouter.use((req, res, next) => {
 }); 
 
 //get users details
-accountRouter.get("/:email", async (req, res) => {
+accountRouter.get("/:email", validateCreate, async (req, res) => {
     const { email } = req.params;
     const user = await userModel.findOne({email}).exec();
   
@@ -23,7 +23,7 @@ accountRouter.get("/:email", async (req, res) => {
 
 
 //add user details
-accountRouter.post("/", async (req, res) => {
+accountRouter.post("/", validateCreate, async (req, res) => {
     const {email, firstname, lastname, dateofbirth, phone  } = req.body;
  
  
@@ -37,6 +37,7 @@ accountRouter.post("/", async (req, res) => {
 
     if(userPhone)   
         return res.status(409).send("Este teléfono ya esta siendo usado, por favor utilice otro numero telefónico.");
+        
    
     await newUser.save();
     
@@ -48,7 +49,7 @@ accountRouter.post("/", async (req, res) => {
 });
 
 //Update users details
-accountRouter.patch("/", async (req, res) => {
+accountRouter.patch("/", validateCreate, async (req, res) => {
   const { email } = req.params;
   const { firstname, lastname } = req.body;
 
@@ -65,7 +66,7 @@ accountRouter.patch("/", async (req, res) => {
 }); 
 
 //Delete users
-accountRouter.delete("/", async (req, res) => {
+accountRouter.delete("/", validateCreate, async (req, res) => {
     const { email } = req.params;
     const user = await userModel.findOne(email).exec();
   
