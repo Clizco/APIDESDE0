@@ -29,7 +29,7 @@ accountRouter.post("/", validateCreate, async (req, res) => {
  
     const newUser = new userModel({ firstname, lastname, email, dateofbirth, phone});
  
-    const userEmail = await userModel.findMany({email, phone}).exec();
+    const userEmail = await userModel.findOne({email}).exec();
     const userPhone = await userModel.findOne({phone}).exec(); 
 
     if(userEmail)
