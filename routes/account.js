@@ -12,8 +12,8 @@ accountRouter.use((req, res, next) => {
 }); 
 
 //get users details
-accountRouter.get("/:email", validateCreate, async (req, res) => {
-    const { email } = req.params;
+accountRouter.get("/:email", async (req, res) => {
+    const { email } = req.params ;
     const user = await userModel.findOne({email}).exec();
   
     if (!user) return res.status(404).send();
@@ -23,7 +23,7 @@ accountRouter.get("/:email", validateCreate, async (req, res) => {
 
 
 //add user details
-accountRouter.post("/", validateCreate, async (req, res) => {
+accountRouter.post("/register/", validateCreate, async (req, res) => {
     const {email, firstname, lastname, dateofbirth, phone  } = req.body;
  
  
@@ -49,24 +49,20 @@ accountRouter.post("/", validateCreate, async (req, res) => {
 });
 
 //Update users details
-accountRouter.patch("/", validateCreate, async (req, res) => {
-  const { email } = req.params;
-  const { firstname, lastname } = req.body;
+accountRouter.patch('/update/:id', async (req, res) => {
+    const id  = req.params.id; 
+    const newUserData  = req.body; 	
+    const user = await userModel.findOneAndUpdate({ _id: id }, {$set: newUserData});
 
-  if (!firstname || !lastname) return res.status(400).send();
-  const user = await userModel.findOneAndUpdate({email});
+    if (!user) 
+        return res.status(404).send("No se encuentra al usuario :(");
+    if(user)
+        return res.status(200).send("El usuario se actualizo correctamente")
 
-  user.firstname = firstname;
-  user.lastname = lastname;
-
-  await user.save(); 
-
-  return res.send();
- 
-}); 
+  });
 
 //Delete users
-accountRouter.delete("/", validateCreate, async (req, res) => {
+accountRouter.delete("/delete/:email", async (req, res) => {
     const { email } = req.params;
     const user = await userModel.findOne(email).exec();
   
