@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import express  from "express";
 import mongoose from "mongoose";
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import accountRouter from "./routes/account.js";
 import userModel from "./schema/user-model.js";
@@ -13,6 +14,7 @@ const expressApp = express()
 expressApp.use(cookieParser());
 expressApp.use(express.text());
 expressApp.use(express.json());
+expressApp.use(cors());
 
 expressApp.use("/account", accountRouter);
 
