@@ -22,16 +22,31 @@ accountRouter.get("/:email", async (req, res) => {
     return res.send(user);
 });
 
+//get all users details
+accountRouter.get("/users/all", async (req, res) => {
+    const user = await userModel.find({}).exec();
+
+    return res.status(200).json(user)
+})
+
 
 //add user details
 accountRouter.post("/register/", validateCreate, async (req, res) => {
     const {email, firstname, lastname, dateofbirth, phone  } = req.body;
  
- 
+ console.log(JSON.stringify(req.body))
+
     const newUser = new userModel({ firstname, lastname, email, dateofbirth, phone});
     
     const userEmail = await userModel.findOne({email}).exec();
     const userPhone = await userModel.findOne({phone}).exec(); 
+
+    if (!dateofbirth) {
+        res.status(409).send({
+            error: "Thats not a date.",
+        })
+     return
+    }
    
     if(userEmail){
         res.status(409).send({
@@ -48,19 +63,15 @@ accountRouter.post("/register/", validateCreate, async (req, res) => {
         })
     return
     }
-    res.send({
-
-    });
-
     
-        
+        res.status(200).send({"info": "User Registered"})
     await newUser.save();
     
     
 
 });
 
-//Update users details
+//update users details
 accountRouter.patch('/update/:id', validateUpdate, async (req, res) => {
     const id  = req.params.id; 
     const newUserData  = req.body; 	
@@ -73,7 +84,7 @@ accountRouter.patch('/update/:id', validateUpdate, async (req, res) => {
 
   });
 
-//Delete users
+//delete users
 accountRouter.delete("/delete/:email", async (req, res) => {
     const { email } = req.params;
     const user = await userModel.findOneAndDelete(email).exec();
