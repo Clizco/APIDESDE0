@@ -10,7 +10,7 @@ This project includes:
 - cookie-parser
 - http-error
 - mongodb
-- jsonwebtoken (soon)
+- jsonwebtoken
 
 # CONTRIBUTING
 
