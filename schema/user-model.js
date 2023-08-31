@@ -21,8 +21,8 @@ userSchema.methods.validatePassword = function(password)  {
     return bcrypt.compare(password, this.password);
 
 }
-
+ 
 const userModel = model('User', userSchema)
 
 
-export default userModel; 
+export default userModel;  
