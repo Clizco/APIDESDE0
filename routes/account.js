@@ -94,7 +94,7 @@ accountRouter.post("/signup/", validateCreate, async (req, res) => {
 //signing user details
 accountRouter.post('/signin', async (req, res) => {
     const {email, password} = req.body;
-    const user = await userModel.findOne({email: email});
+    const user = await userModel.findOne({email: email}); 
     if (!user) {
         return res.status(404).send("The email doesn't exists")
     }
