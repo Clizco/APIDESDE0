@@ -38,5 +38,5 @@ npm run build # builds the project to ./dist
 
 npm run debug # turns on the debug mode and runs npm run start
 
-npm run dev # turns on the debug mode and runs npm run start:dev
+npm run dev # turns on the debug mode and runs npm run start:dev 
 ```
