@@ -2,7 +2,9 @@ import { Router, json, response } from "express";
 import userModel from "../schema/user-model.js";
 import { validateCreate } from '../validators/users.js' 
 import { validateUpdate } from "../validators/update.js";
+// import { validateToken } from "../validators/validateToken.js";
 import jwt from "jsonwebtoken"
+import { jwtDecode } from "jwt-decode";
 import config from "../config.js";
 
 
@@ -40,9 +42,9 @@ accountRouter.get("/users/me", async (req, res) => {
         return res.status(401).json({
             auth: false,
             message: 'No token provided'
-        })
+        }) 
     }
-
+  
     const decoded = jwt.verify(token, config.secret);
     const user = await userModel.findById(decoded.id, {password: 0})
     if(!user) {
@@ -104,11 +106,18 @@ accountRouter.post('/signin', async (req, res) => {
         return res.status(401).json({auth: false, token: null})
 
     }
-
+    
     const token = jwt.sign({id: user._id}, config.secret, {
         expiresIn: 60 * 60 * 24
     })
-    res.json({auth: true, token})
+
+    res.json({auth: true,
+              token: token,
+              message: 'Enjoy your token', 
+            })
+
+    var decode = jwtDecode(token)
+    console.log(decode)
   
 })
 
@@ -123,7 +132,7 @@ accountRouter.patch('/update/:id', validateUpdate, async (req, res) => {
     if(user)
         return res.status(200).send("El usuario se actualizo correctamente")
 
-  });
+ }); 
 
 //delete users
 accountRouter.delete("/delete/:email", async (req, res) => {
@@ -133,7 +142,7 @@ accountRouter.delete("/delete/:email", async (req, res) => {
     if (!user) return res.status(404).send();
   
     return res.status(200).send('El usuario fue eliminado correctamente');
-  
-  });
+   
+  }); 
   
   export default accountRouter;
