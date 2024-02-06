@@ -2,7 +2,7 @@ import { Router, json, response } from "express";
 import userModel from "../schema/user-model.js";
 import { validateCreate } from '../validators/users.js' 
 import { validateUpdate } from "../validators/update.js";
-// import { validateToken } from "../validators/validateToken.js";
+import { validateToken } from "../validators/validateToken.js";
 import jwt from "jsonwebtoken"
 import { jwtDecode } from "jwt-decode";
 import config from "../config.js";
@@ -17,6 +17,7 @@ accountRouter.use((req, res, next) => {
     next();
 }); 
 
+
 //get users details
 accountRouter.get("/:email", async (req, res) => {
     const { email } = req.params ;
@@ -30,12 +31,12 @@ accountRouter.get("/:email", async (req, res) => {
 //get all users details
 accountRouter.get("/users/all", async (req, res) => {
     const user = await userModel.find({}, {password: 0}).exec();
-
+  
     return res.status(200).json(user)
 }) 
 
-//get me user details
-accountRouter.get("/users/me", async (req, res) => {
+// Validate Token
+accountRouter.get("/users/token", async (req, res) => {
 
     const token = req.headers['x-access-token'];
     if(!token) {
@@ -44,6 +45,7 @@ accountRouter.get("/users/me", async (req, res) => {
             message: 'No token provided'
         }) 
     }
+    
   
     const decoded = jwt.verify(token, config.secret);
     const user = await userModel.findById(decoded.id, {password: 0})
@@ -87,11 +89,11 @@ accountRouter.post("/signup/", validateCreate, async (req, res) => {
         })
     return
     }
-    
+      
         res.json({auth: true, token})
     await newUser.save();
 
-});
+}); 
 
 //signing user details
 accountRouter.post('/signin', async (req, res) => {
