@@ -136,6 +136,24 @@ accountRouter.patch('/update/:id', validateUpdate, async (req, res) => {
 
  }); 
 
+//update user information
+accountRouter.post("/updateUser", async (req, res)=> {
+    const { id, firstname, lastname } = req.body;
+    try {
+        await userModel.updateOne({ _id: id }, {
+            $set: {
+                firstname: firstname,
+                lastname: lastname
+            }
+        })
+        return res.json({ status: "ok", data: "updated"})
+    }catch (error) {
+        return res.json({ status: "error", data: error })
+    }
+
+}) 
+
+
 //delete users
 accountRouter.delete("/delete/:email", async (req, res) => {
     const { email } = req.params;
@@ -148,3 +166,5 @@ accountRouter.delete("/delete/:email", async (req, res) => {
   }); 
   
   export default accountRouter;
+
+  
