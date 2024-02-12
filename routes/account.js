@@ -151,19 +151,32 @@ accountRouter.post("/updateUser", async (req, res)=> {
         return res.json({ status: "error", data: error })
     }
 
-}) 
-
+})  
 
 //delete users
-accountRouter.delete("/delete/:email", async (req, res) => {
-    const { email } = req.params;
-    const user = await userModel.findOneAndDelete(email).exec();
-  
-    if (!user) return res.status(404).send();
-  
-    return res.status(200).send('El usuario fue eliminado correctamente');
+accountRouter.delete("/delete", async (req, res) => {
+    const { email } = req.body;
+    try {
+        await userModel.findOneAndDelete({ email: email})
+        return res.status(200).send('El usuario se elimino correctamente')
+   }catch (error) {
+        return res.status(404).send('El usuario no se a podido eliminar, o no se a encontrado')
+   }
    
-  }); 
+
+});
+
+//Delete user data
+accountRouter.post("/deleteUser", async(req, res)=> {
+    const {userid} = req.body
+    try {
+        await userModel.deleteOne({_id: userid}, {
+            });
+        res.send({ status: "Ok", data: "Deleted"});
+    }catch (error) {
+        console.log(error)
+    }
+})
   
   export default accountRouter;
 
