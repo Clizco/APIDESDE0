@@ -28,6 +28,8 @@ accountRouter.get("/:email", async (req, res) => {
     return res.send(user);
 });
 
+
+
 //get all users details
 accountRouter.get("/users/all", async (req, res) => {
     const user = await userModel.find({}, {password: 0}).exec();
@@ -93,7 +95,8 @@ accountRouter.post("/signup/", validateCreate, async (req, res) => {
         res.json({auth: true, token})
     await newUser.save();
 
-}); 
+});
+
 
 //signing user details
 accountRouter.post('/signin', async (req, res) => {
@@ -106,7 +109,7 @@ accountRouter.post('/signin', async (req, res) => {
     const validPassword = await user.validatePassword(password);
     if(!validPassword) {
         return res.status(401).json({auth: false, token: null})
-
+ 
     }
     
     const token = jwt.sign({id: user._id}, config.secret, {
@@ -120,7 +123,7 @@ accountRouter.post('/signin', async (req, res) => {
 
     var decode = jwtDecode(token)
     console.log(decode)
-  
+   
 })
 
 //update users details
